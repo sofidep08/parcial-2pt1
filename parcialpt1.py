@@ -29,7 +29,6 @@ class Participante:
         except FileNotFoundError:
             print("El archivo participantes.txt no existe, se creara despues de guardar")
 
-
 class Agregar:
     participantes = {}
     @staticmethod
@@ -141,7 +140,6 @@ class Puntaje:
         boton_guardar=tk.Button(ventana3, text="Guardar", command=guardar_puntos, font=("Arial",10,"bold"), fg="turquoise",activebackground="gray",relief="raised",bd=3)
         boton_guardar.pack(pady=10)
 
-
 class Mostrar:
     @staticmethod
     def abrir_ventana_mostrar():
@@ -181,6 +179,5 @@ boton_mostrar.place(x=315,y=200)
 
 boton_salir=tk.Button(ventana,text="Salir",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_salir.place(x=270,y=300)
-
 
 ventana.mainloop()
