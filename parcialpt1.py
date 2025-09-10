@@ -18,12 +18,13 @@ class Participante:
                 for linea in archivo:
                     linea=linea.strip()
                     if linea:
-                        codigo,nombre,edad,institucion,municipio = linea.split(":")
+                        codigo,nombre,edad,institucion,municipio,puntos = linea.split(":")
                         Agregar.participantes[codigo] ={
                             "nombre":nombre,
                             "edad":edad,
                             "institucion":institucion,
-                            "municipio":municipio
+                            "municipio":municipio,
+                            "puntos":puntos
                         }
             print("Participantes importados desde participantes.txt")
         except FileNotFoundError:
@@ -67,20 +68,21 @@ class Agregar:
         entrada5 = tk.Entry(ventana2)
         entrada5.pack(pady=2)
 
-
         def guardar_participante():
             codigo=entrada1.get()
             nombre=entrada2.get()
             edad=entrada3.get()
             institucion=entrada4.get()
             municipio=entrada5.get()
+            puntos=0
 
             if codigo and nombre:
                 Agregar.participantes[codigo] = {
                     "nombre":nombre,
                     "edad":edad,
                     "institucion":institucion,
-                    "municipio":municipio
+                    "municipio":municipio,
+                    "puntos":puntos
                 }
                 Agregar.guardar_participantes()
                 print("Participante guardada desde entrada.")
@@ -93,14 +95,63 @@ class Agregar:
     def guardar_participantes():
         with open("participantes.txt","w",encoding="utf-8") as archivo:
             for codigo, participante in Agregar.participantes.items():
-                archivo.write(f"{codigo}:{participante['nombre']}:{participante['edad']}:{participante['institucion']}:{participante['municipio']}\n")
+                archivo.write(f"{codigo}:{participante['nombre']}:{participante['edad']}:{participante['institucion']}:{participante['municipio']}:{participante['puntos']}\n")
+
+class Puntaje:
+    @staticmethod
+    def abrir_entana_puntaje():
+        ventana3=tk.Toplevel(ventana)
+        ventana3.title("Puntaje")
+        ventana3.geometry("450x350")
+        ventana3.configure(bg="pink")
+
+        etiqueta1=tk.Label(ventana3,text="Ingrese el codigo del participante", font=("Arial",10,"bold"), fg="white", bg="pink")
+        etiqueta1.pack(pady=2)
+        entrada1=tk.Entry(ventana3)
+        entrada1.pack(pady=2)
+
+        etiqueta2=tk.Label(ventana3,text="Puntaje de cultura general",font=("Arial",10,"bold"),fg="white", bg="pink")
+        etiqueta2.pack(pady=2)
+        entrada2=tk.Entry(ventana3)
+        entrada2.pack(pady=2)
+
+        etiqueta3=tk.Label(ventana3,text="Puntaje de proyección escénica",font=("Arial",10,"bold"),fg="white", bg="pink")
+        etiqueta3.pack(pady=2)
+        entrada3=tk.Entry(ventana3)
+        entrada3.pack(pady=2)
+
+        etiqueta4 = tk.Label(ventana3, text="Puntaje de entrevista", font=("Arial", 10, "bold"),fg="white", bg="pink")
+        etiqueta4.pack(pady=2)
+        entrada4=tk.Entry(ventana3)
+        entrada4.pack(pady=2)
+
+        def guardar_puntos():
+            codigo=entrada1.get()
+            if codigo in Agregar.participantes:
+                try:
+                    punto1=float(entrada2.get())
+                    punto2=float(entrada3.get())
+                    punto3=float(entrada4.get())
+                    promedio=(punto1+punto2+punto3)/3
+                    Agregar.participantes[codigo]["puntos"]=promedio
+                    Agregar.guardar_participantes()
+                    print(f"Puntaje guardado para {codigo}")
+                except ValueError:
+                    print("Ingrese unicamente numeros")
+        boton_guardar=tk.Button(ventana3, text="Guardar", command=guardar_puntos, font=("Arial",10,"bold"), fg="turquoise",activebackground="gray",relief="raised",bd=3)
+        boton_guardar.pack(pady=10)
+
+
+class Mostrar:
+
+
 
 Participante()
 
 boton_agregar=tk.Button(ventana,text="Registrar reina",command=Agregar.abrir_ventana_participante,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_agregar.place(x=115,y=150)
 
-boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=Puntaje.abrir_entana_puntaje,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_puntaje.place(x=315,y=150)
 
 boton_calcular=tk.Button(ventana,text="Calcular puntaje",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
@@ -109,11 +160,8 @@ boton_calcular.place(x=115,y=200)
 boton_mostrar=tk.Button(ventana,text="Mostrar participantes",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_mostrar.place(x=315,y=200)
 
-#boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
-#boton_puntaje.place(x=115,y=350)
-
-boton_puntaje=tk.Button(ventana,text="Salir",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
-boton_puntaje.place(x=270,y=300)
+boton_salir=tk.Button(ventana,text="Salir",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_salir.place(x=270,y=300)
 
 
 ventana.mainloop()
