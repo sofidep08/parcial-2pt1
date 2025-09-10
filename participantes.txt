@@ -1,2 +1,4 @@
-123:maria:23:Udeo:Quetzaltenango
-345:marta:24:Meso:Olintepeque
+123:maria:23:Udeo:Quetzaltenango:7.333333333333333
+345:marta:24:Meso:Olintepeque:7.0
+678:ana:18:Landivar:Cajola:0
+098:julia:25:Meso:Quetzaltenango:0
