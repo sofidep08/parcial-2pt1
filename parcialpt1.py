@@ -93,7 +93,7 @@ class Agregar:
     def guardar_participantes():
         with open("participantes.txt","w",encoding="utf-8") as archivo:
             for codigo, participante in Agregar.participantes.items():
-                archivo.write(f"{codigo}:{participante['nombre']}\n")
+                archivo.write(f"{codigo}:{participante['nombre']}:{participante['edad']}:{participante['institucion']}:{participante['municipio']}\n")
 
 Participante()
 
