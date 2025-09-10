@@ -31,7 +31,47 @@ class Participante:
 
 
 class Agregar:
-    participantes={}
+    participantes = {}
+    @staticmethod
+    def abrir_ventana_participante():
+        ventana2 = tk.Toplevel(ventana)
+        ventana2.title("Agregar")
+        ventana2.geometry("300x250")
+        ventana2.configure(bg="pink")
+
+        titulo2 = tk.Label(ventana2, text="Informacion del participante", font=("Arial", 15, "bold"), fg="white", bg="pink")
+        titulo2.place(x=75, y=50)
+
+        etiqueta1=tk.Label(ventana2,text="Ingrese el codigo", font=("Arial", 10, "bold"),fg="white", bg="pink")
+        etiqueta1.pack(pady=2)
+        entrada1 = tk.Entry(ventana2)
+        entrada1.pack(pady=2)
+
+        etiqueta2 = tk.Label(ventana2, text="Ingrese el nombre", font=("Arial", 10, "bold"), fg="white", bg="pink")
+        etiqueta2.pack(pady=2)
+        entrada2 = tk.Entry(ventana2)
+        entrada2.pack(pady=2)
+
+        etiqueta3 = tk.Label(ventana2, text="Ingrese la edad", font=("Arial", 10, "bold"), fg="white", bg="pink")
+        etiqueta3.pack(pady=2)
+        entrada3 = tk.Entry(ventana2)
+        entrada3.pack(pady=2)
+
+        etiqueta4 = tk.Label(ventana2, text="Ingrese la institucion", font=("Arial", 10, "bold"), fg="white", bg="pink")
+        etiqueta4.pack(pady=2)
+        entrada4 = tk.Entry(ventana2)
+        entrada4.pack(pady=2)
+
+        etiqueta5 = tk.Label(ventana2, text="Ingrese el municipio", font=("Arial", 10, "bold"), fg="white", bg="pink")
+        etiqueta5.pack(pady=2)
+        entrada5 = tk.Entry(ventana2)
+        entrada5.pack(pady=2)
+
+
+    def agregar_participante(self):
+        pass
+
+
     def __init__(self,codigo, nombre, edad, institucion, municipio):
         self.codigo = codigo
         self.nombre = nombre
@@ -55,9 +95,7 @@ class Agregar:
 
 Participante()
 
-
-
-boton_agregar=tk.Button(ventana,text="Registrar reina",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_agregar=tk.Button(ventana,text="Registrar reina",command=Agregar.agregar_participante,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_agregar.place(x=115,y=150)
 
 boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
