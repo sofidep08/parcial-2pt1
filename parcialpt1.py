@@ -36,11 +36,11 @@ class Agregar:
     def abrir_ventana_participante():
         ventana2 = tk.Toplevel(ventana)
         ventana2.title("Agregar")
-        ventana2.geometry("300x250")
+        ventana2.geometry("450x350")
         ventana2.configure(bg="pink")
 
         titulo2 = tk.Label(ventana2, text="Informacion del participante", font=("Arial", 15, "bold"), fg="white", bg="pink")
-        titulo2.place(x=75, y=50)
+        titulo2.pack(pady=2)
 
         etiqueta1=tk.Label(ventana2,text="Ingrese el codigo", font=("Arial", 10, "bold"),fg="white", bg="pink")
         etiqueta1.pack(pady=2)
@@ -68,34 +68,36 @@ class Agregar:
         entrada5.pack(pady=2)
 
 
-    def agregar_participante(self):
-        pass
+        def guardar_participante():
+            codigo=entrada1.get()
+            nombre=entrada2.get()
+            edad=entrada3.get()
+            institucion=entrada4.get()
+            municipio=entrada5.get()
 
+            if codigo and nombre:
+                Agregar.participantes[codigo] = {
+                    "nombre":nombre,
+                    "edad":edad,
+                    "institucion":institucion,
+                    "municipio":municipio
+                }
+                Agregar.guardar_participantes()
+                print("Participante guardada desde entrada.")
+                ventana2.destroy()
 
-    def __init__(self,codigo, nombre, edad, institucion, municipio):
-        self.codigo = codigo
-        self.nombre = nombre
-        self.edad = edad
-        self.institucion = institucion
-        self.municipio = municipio
+        boton_guardar = tk.Button(ventana2, text="Guardar", command=guardar_participante,font=("Arial",10,"bold"),fg="turquoise",activebackground="gray",relief="raised",bd=3)
+        boton_guardar.pack(pady=10)
 
-        Agregar.participantes[self.codigo] = {
-            "nombre": self.nombre,
-            "edad": self.edad,
-            "institucion": self.institucion,
-            "municipio": self.municipio
-        }
-        self.guardar_participantes()
-        print("Participante guardada")
-
-    def guardar_participantes(self):
+    @staticmethod
+    def guardar_participantes():
         with open("participantes.txt","w",encoding="utf-8") as archivo:
             for codigo, participante in Agregar.participantes.items():
                 archivo.write(f"{codigo}:{participante['nombre']}\n")
 
 Participante()
 
-boton_agregar=tk.Button(ventana,text="Registrar reina",command=Agregar.agregar_participante,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_agregar=tk.Button(ventana,text="Registrar reina",command=Agregar.abrir_ventana_participante,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_agregar.place(x=115,y=150)
 
 boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
