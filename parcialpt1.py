@@ -11,7 +11,6 @@ titulo.place(x=165, y=50)
 class Participante:
     def __init__(self):
         self.cargar_participantes()
-
     def cargar_participantes(self):
         try:
             with open("participantes.txt","r",encoding="utf-8") as archivo:
@@ -99,7 +98,7 @@ class Agregar:
 
 class Puntaje:
     @staticmethod
-    def abrir_entana_puntaje():
+    def abrir_ventana_puntaje():
         ventana3=tk.Toplevel(ventana)
         ventana3.title("Puntaje")
         ventana3.geometry("450x350")
@@ -136,6 +135,7 @@ class Puntaje:
                     Agregar.participantes[codigo]["puntos"]=promedio
                     Agregar.guardar_participantes()
                     print(f"Puntaje guardado para {codigo}")
+                    ventana3.destroy()
                 except ValueError:
                     print("Ingrese unicamente numeros")
         boton_guardar=tk.Button(ventana3, text="Guardar", command=guardar_puntos, font=("Arial",10,"bold"), fg="turquoise",activebackground="gray",relief="raised",bd=3)
@@ -143,21 +143,40 @@ class Puntaje:
 
 
 class Mostrar:
+    @staticmethod
+    def abrir_ventana_mostrar():
+        ventana4 = tk.Toplevel(ventana)
+        ventana4.title("Participantes")
+        ventana4.geometry("450x350")
+        ventana4.configure(bg="pink")
 
+        titulo4 = tk.Label(ventana4, text="Lista de Participantes",font=("Arial", 15, "bold"), fg="white", bg="pink")
+        titulo4.pack(pady=10)
 
+        texto= "Código | Nombre | Edad | Institución | Municipio | Puntaje\n"
+        texto += "-" * 70 + "\n"
+
+        for codigo, participante in Agregar.participantes.items():
+            texto += f"{codigo} | {participante['nombre']} | {participante['edad']} | {participante['institucion']} | {participante['municipio']} | {participante['puntos']}\n"
+
+        mostrar = tk.Label(ventana4, text=texto, font=("Arial", 10), bg="pink", justify="left", anchor="w")
+        mostrar.pack(padx=10, pady=10)
+
+        boton_cerrar = tk.Button(ventana4, text="Cerrar", command=ventana4.destroy,font=("Arial", 10, "bold"), fg="turquoise", relief="raised", bd=2)
+        boton_cerrar.pack(pady=5)
 
 Participante()
 
 boton_agregar=tk.Button(ventana,text="Registrar reina",command=Agregar.abrir_ventana_participante,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_agregar.place(x=115,y=150)
 
-boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=Puntaje.abrir_entana_puntaje,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_puntaje=tk.Button(ventana,text="Calificar candidatas",command=Puntaje.abrir_ventana_puntaje,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_puntaje.place(x=315,y=150)
 
 boton_calcular=tk.Button(ventana,text="Calcular puntaje",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_calcular.place(x=115,y=200)
 
-boton_mostrar=tk.Button(ventana,text="Mostrar participantes",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
+boton_mostrar=tk.Button(ventana,text="Mostrar participantes",command=Mostrar.abrir_ventana_mostrar,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
 boton_mostrar.place(x=315,y=200)
 
 boton_salir=tk.Button(ventana,text="Salir",command=ventana.quit,font=("Arial",14,"bold"),fg="turquoise",activebackground="gray",relief="raised", bd=3)
